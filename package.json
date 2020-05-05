@@ -1,11 +1,11 @@
 {
-  "name": "nodebb-plugin-quickstart",
-  "version": "0.3.1",
+  "name": "nodebb-plugin-post-notifier",
+  "version": "0.0.2",
   "description": "A starter kit for quickly creating NodeBB plugins",
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/psychobunny/nodebb-plugin-quickstart"
+    "url": "https://github.com/d-yuri/nodebb-plugin-post-notifier"
   },
   "keywords": [
     "nodebb",
@@ -26,12 +26,12 @@
     ]
   },
   "author": {
-    "name": "psychobunny",
-    "email": "psycho.bunny@hotmail.com"
+    "name": "d-yuri",
+    "email": "dobrovolskiyuri@gmail.com"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/psychobunny/nodebb-plugin-quickstart/issues"
+    "url": "https://github.com/d-yuri/nodebb-plugin-post-notifier/issues"
   },
   "readmeFilename": "README.md",
   "nbbpm": {
