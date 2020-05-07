@@ -10,7 +10,6 @@ var meta = require.main.require('./src/meta');
 const plugin = {};
 
 var ses;
-var topicTitle, postText, fullPostText;
 var emailSender;
 var template;
 
@@ -35,10 +34,6 @@ plugin.init = function (params, callback) {
 	}
 
 	meta.settings.get('post-notifier', function (err, settings) {
-
-		topicTitle = settings.topicTitle
-		postText = settings.postText
-		fullPostText = settings.fullPostText
 
 		if (!err && settings && settings.region && settings.fromAddress) {
 			if (
@@ -83,13 +78,9 @@ plugin.postSave = async function (post, callback) {
 	if (post.uid == topic.uid) {
 		return;
 	}
-
-	if (topicTitle) {
 		template = template.replace('topicTitle', topic.title)
-	}
-	if (postText) {
 		template = template.replace('postText', post.content.split(' ').slice(0,30).join(' ')+'...')
-	}
+
 
 	let params = {
 		Source: emailSender,
@@ -121,7 +112,7 @@ plugin.postSave = async function (post, callback) {
 	}catch (e) {
 		winston.error('[post-notification] '+ e);
 	}
-}
+};
 
 
 module.exports = plugin;
