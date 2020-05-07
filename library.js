@@ -1,9 +1,7 @@
 'use strict';
 
-const controllers = require('./lib/controllers');
-const Posts = require.main.require("./src/posts")
-const Topics = require.main.require("./src/topics")
-const User = require.main.require("./src/user")
+const Topics = require.main.require("./src/topics");
+const User = require.main.require("./src/user");
 const winston = require.main.require('winston');
 const aws = require('aws-sdk');
 var meta = require.main.require('./src/meta');
@@ -15,7 +13,6 @@ var template;
 
 plugin.init = function (params, callback) {
 	const router = params.router;
-	const hostMiddleware = params.middleware;
 
 	function render(req, res, next) {
 		res.render('admin/plugins/post-notifier', {});
@@ -78,8 +75,9 @@ plugin.postSave = async function (post, callback) {
 	if (post.uid == topic.uid) {
 		return;
 	}
-		template = template.replace('topicTitle', topic.title)
-		template = template.replace('postText', post.content.split(' ').slice(0,30).join(' ')+'...')
+		template = template.replace('topicTitle', topic.title);
+
+		template = template.replace('postText', post.post.content.split(' ').slice(0,30).join(' ')+'...');
 
 
 	let params = {
