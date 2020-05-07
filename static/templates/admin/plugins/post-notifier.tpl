@@ -77,14 +77,14 @@
 <script type="text/javascript">
     require(['settings'], function(Settings){
         var form = $('.emailer-settings');
-        Settings.load('quickstart', form);
+        Settings.load('post-notifier', form);
 
         $('#save').click(function(event){
             event.preventDefault();
-            Settings.save('quickstart', form, function() {
+            Settings.save('post-notifier', form, function() {
                 app.alert({
                     type: 'success',
-                    alert_id: 'quickstart-saved',
+                    alert_id: 'post-notifier-saved',
                     title: 'Settings saved',
                     message: 'Click here to reload NodeBB',
                     timeout: 2500,
