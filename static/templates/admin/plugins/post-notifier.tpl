@@ -31,12 +31,12 @@
             </div>
         </div>
         <div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="region">Region</label>
-					<input type="text" class="form-control" id="region" name="region" />
-				</div>
-			</div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="region">Region</label>
+                    <input type="text" class="form-control" id="region" name="region" />
+                </div>
+            </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="fromAddress">From Address</label>
@@ -45,32 +45,44 @@
             </div>
         </div>
         <div class="row">
-			<div class="col-sm12">
-				<div class="form-group">
-					<label for="subject">Subject</label>
-					<input type="text" class="form-control" id="subject" name="subject" />
-				</div>
-			</div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="subject">Forum base url</label>
+                    <input type="text" class="form-control" id="forumBaseUrl" name="forumBaseUrl" placeholder="https://examle.com/forum"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" />
+                </div>
+            </div>
         </div>
 
         <div class="row">
-			<div class="col-lg-12">
-				<blockquote>
-					<p>Add abbreviation to paste data in the letter:</p>
-					<ul>
-						<li> <b>topicTitle</b>  - title of topic</li>
-						<li> <b>postText</b>  - add post text in the letter default first 30 words</li>
-					</ul>
+            <div class="col-lg-12">
+                <blockquote>
+                    <p>Add abbreviation to paste data in the letter:</p>
+                    <ul>
+                        <li> <b>topicTitle</b>  - title of topic</li>
+                        <li> <b>topicLink</b>  - topic link</li>
+                        <li> <b>postLink</b>  - post link</li>
+                        <li> <b>postText</b>  - add post text in the letter default first 30 words</li>
+                    </ul>
 
-				</blockquote>
-			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="region">Template</label>
-					<textarea id="template" name="template" class="form-control"></textarea>
-				</div>
-			</div>
-        <button class="btn btn-lg btn-primary" id="save" type="button">Save</button>
+                </blockquote>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="region">Template</label>
+                    <textarea id="template" cols="15" rows="20" name="template" style="border-color: rgba(239, 64, 53, 0.8);
+    box-shadow: 0 1px 1px rgba(239, 64, 53, 0.075) inset, 0 0 8px rgba(239, 64, 53, 0.6);
+    outline: 0 none;" class="form-control"></textarea>
+                </div>
+            </div>
+            <button class="btn btn-lg btn-primary" id="save" type="button">Save</button>
     </fieldset>
 </form>
 

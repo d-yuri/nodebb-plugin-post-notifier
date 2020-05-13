@@ -9,10 +9,12 @@ const plugin = {};
 
 var ses;
 var emailSender;
+var forumBaseUrl;
 var template;
 
 plugin.init = function (params, callback) {
 	const router = params.router;
+	const hostMiddleware = params.middleware;
 
 	function render(req, res, next) {
 		res.render('admin/plugins/post-notifier', {});
@@ -43,6 +45,7 @@ plugin.init = function (params, callback) {
 				ses = new aws.SES(getAWSConfig(settings.accessKeyID, settings.secretAccessKey, settings.region));
 				emailSender = settings.fromAddress;
 				template = settings.template;
+				forumBaseUrl = settings.forumBaseUrl;
 			} else {
 				winston.error('[post-notifier] Not all settings defined!');
 			}
@@ -72,13 +75,17 @@ plugin.postSave = async function (post, callback) {
 	let topic = await Topics.getTopicData(post.post.tid);
 	let topicCreator = await User.getUserFields(topic.uid, ['email', 'email:confirmed']);
 
-	if (post.uid == topic.uid) {
+	if (post.post.uid == topic.uid) {
 		return;
 	}
-		template = template.replace('topicTitle', topic.title);
+	let sendTmplate = template;
+	let topicLink = forumBaseUrl + '/topic/' + topic.slug;
+	let postLink = forumBaseUrl + '/post/' + post.post.pid;
 
-		template = template.replace('postText', post.post.content.split(' ').slice(0,30).join(' ')+'...');
-
+	sendTmplate = sendTmplate.replace('topicTitle', topic.title);
+	sendTmplate = sendTmplate.replace('topicLink', topicLink);
+	sendTmplate = sendTmplate.replace('postLink', postLink);
+	sendTmplate = sendTmplate.replace('postText', post.post.content.split(' ').slice(0,30).join(' ')+'...');
 
 	let params = {
 		Source: emailSender,
@@ -92,7 +99,7 @@ plugin.postSave = async function (post, callback) {
 			},
 			Body: {
 				Html: {
-					Data: template,
+					Data: sendTmplate,
 					Charset: 'UTF-8',
 				},
 			},
@@ -111,6 +118,5 @@ plugin.postSave = async function (post, callback) {
 		winston.error('[post-notification] '+ e);
 	}
 };
-
 
 module.exports = plugin;
