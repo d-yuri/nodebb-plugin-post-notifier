@@ -71,26 +71,31 @@ plugin.addAdminNavigation = function (header, callback) {
 };
 
 
-plugin.postSave = async function (post, callback) {
-	let topic = await Topics.getTopicData(post.post.tid);
-	let topicCreator = await User.getUserFields(topic.uid, ['email', 'email:confirmed']);
-
-	if (post.post.uid == topic.uid) {
+plugin.emailSending = async function ({ data, uid, hostUrl = '' }, callback) {
+	if (!uid && !data) {
 		return;
 	}
-	let sendTmplate = template;
-	let topicLink = forumBaseUrl + '/topic/' + topic.slug;
-	let postLink = forumBaseUrl + '/post/' + post.post.pid;
 
-	sendTmplate = sendTmplate.replace('topicTitle', topic.title);
+	const hostBaseUrl = hostUrl ? hostUrl : forumBaseUrl;
+
+	const { tid, pid, bodyLong, topicTitle } = data;
+
+	let topic = await Topics.getTopicData(tid);
+	let user = await User.getUserFields(uid, ['email', 'email:confirmed']);
+
+	let sendTmplate = template;
+	let topicLink = hostBaseUrl + '/topic/' + topic.slug;
+	let postLink = hostBaseUrl + '/post/' + pid;
+
+	sendTmplate = sendTmplate.replace('topicTitle', topicTitle);
 	sendTmplate = sendTmplate.replace('topicLink', topicLink);
 	sendTmplate = sendTmplate.replace('postLink', postLink);
-	sendTmplate = sendTmplate.replace('postText', post.post.content.split(' ').slice(0,30).join(' ')+'...');
+	sendTmplate = sendTmplate.replace('postText', bodyLong);
 
 	let params = {
 		Source: emailSender,
 		Destination: {
-			ToAddresses: [topicCreator.email],
+			ToAddresses: [user.email],
 		},
 		Message: {
 			Subject: {
@@ -109,13 +114,13 @@ plugin.postSave = async function (post, callback) {
 	ses
 		.sendEmail(params)
 		.promise()
-		.then((res) => {}, (error) => console.log(error))
+		.then((res) => { }, (error) => console.log(error))
 		.catch((error) => console.log(error));
 
 	try {
 
-	}catch (e) {
-		winston.error('[post-notification] '+ e);
+	} catch (e) {
+		winston.error('[post-notification] ' + e);
 	}
 };
 
